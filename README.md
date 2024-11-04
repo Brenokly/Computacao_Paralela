@@ -46,7 +46,6 @@ Apesar de Python ser amplamente utilizada pela sua simplicidade, o **Global Inte
 
 ## 👨‍🎓 Projeto de Pesquisa
 
-- **Código do Projeto**: PIC10001-2023 - Estudo de Padrões e Tecnologias de Computação Paralela e Distribuída para Processamento de Alto Desempenho
 - **Orientador**: Paulo Henrique Lopes Silva
 - **Centro**: Centro de Ciências Exatas e Naturais
 - **Departamento**: Departamento de Computação
