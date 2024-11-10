@@ -49,10 +49,9 @@ def measure_execution_time():
     average_nanoseconds = average_seconds * 1_000_000_000
 
     # Exibindo a média de tempo de execução
-    print(f"Média de tempo de execução em segundos: {average_seconds:.10f} s")
+    print(f"\nMédia de tempo de execução em segundos: {average_seconds:.10f} s")
     print(f"Média de tempo de execução em milissegundos: {average_milliseconds} ms")
     print(f"Média de tempo de execução em nanossegundos: {average_nanoseconds} s")
-
 
 if __name__ == "__main__":
     measure_execution_time()

@@ -5,7 +5,7 @@ import kotlin.system.measureNanoTime
 
 suspend fun multiplyMatrices(a: Array<IntArray>, b: Array<IntArray>, startRow: Int, endRow: Int): Array<IntArray> {
     val result = Array(endRow - startRow) { IntArray(b[0].size) }
-    for (i in startRow until endRow) {  // Usando "until" para evitar erro de índice
+    for (i in startRow..< endRow) {
         for (j in b[0].indices) {
             result[i - startRow][j] = b.indices.sumOf { a[i][it] * b[it][j] }
         }
@@ -14,26 +14,30 @@ suspend fun multiplyMatrices(a: Array<IntArray>, b: Array<IntArray>, startRow: I
 }
 
 fun main() = runBlocking {
+    // Matriz A: 3x2
     val a = arrayOf(
         intArrayOf(1, 2),
         intArrayOf(3, 4),
         intArrayOf(5, 6)
     )
+
+    // Matriz B: 2x2
     val b = arrayOf(
         intArrayOf(7, 8),
         intArrayOf(9, 10)
     )
 
-    val repetitions = 1000
-    var totalNanoseconds = 0L
+    val repetitions = 1000      // Número de repetições
+    var totalNanoseconds = 0L   // Tempo total em nanosegundos
 
+    // Repetir o processo de multiplicação de matrizes e medir o tempo médio de execução
     repeat(repetitions) {
         totalNanoseconds += measureNanoTime {
-            val numThreads = 2
-            val rowsPerThread = a.size / numThreads
-            val deferredResults = mutableListOf<Deferred<Array<IntArray>>>()
+            val numThreads = 2  // Número de threads
+            val rowsPerThread = a.size / numThreads // Número de linhas por thread
+            val deferredResults = mutableListOf<Deferred<Array<IntArray>>>() // Lista de resultados assíncronos
 
-            for (i in 0 until numThreads) {  // Corrigido "until" aqui também
+            for (i in 0..< numThreads) {
                 val startRow = i * rowsPerThread
                 val endRow = if (i == numThreads - 1) a.size else (i + 1) * rowsPerThread
                 deferredResults.add(async {
