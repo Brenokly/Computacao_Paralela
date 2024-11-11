@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ca8846c-7a20-4a14-bda2-4a0f101ea3ca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/kotlinmat/Mult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/kotlinmat/Mult.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/kotlinmat/MultParallel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/kotlinmat/MultParallel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pythonmat/MultParallel.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pythonmat/MultParallel.py" afterDir="false" />
-    </list>
+    <list default="true" id="8ca8846c-7a20-4a14-bda2-4a0f101ea3ca" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +80,7 @@
       <recent name="D:\GIT\Computacao_Paralela\MatrizParallel\src\kotlin" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.KotlinParallel">
+  <component name="RunManager" selected="Kotlin.RunNoParallel">
     <configuration name="KotlinParallel" type="JetRunConfigurationType">
       <option name="ALTERNATIVE_JRE_PATH" value="23" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -186,6 +181,7 @@
       <workItem from="1731264530325" duration="7101000" />
       <workItem from="1731283894076" duration="7920000" />
       <workItem from="1731292150102" duration="837000" />
+      <workItem from="1731293797868" duration="91000" />
     </task>
     <servers />
   </component>

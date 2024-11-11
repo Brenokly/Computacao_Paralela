@@ -17,12 +17,13 @@ fun multiplyMatrices(a: Array<DoubleArray>, b: Array<DoubleArray>): Array<Double
 
 fun main() {
     // Leitura das matrizes de arquivos CSV
-    val a = readMatrixFromCsv("src/matrizes/matriz3.csv")
-    val b = readMatrixFromCsv("src/matrizes/matriz4.csv")
+    val a = readMatrixFromCsv("src/matrizes/matriz1.csv")
+    val b = readMatrixFromCsv("src/matrizes/matriz2.csv")
 
     // Configurações iniciais
     val repetitions = 1             // Número de repetições para medir o tempo médio
     var totalNanoseconds = 0L       // Tempo total em nanosegundos
+    var finalResult = Array(0) { doubleArrayOf() }  // Matriz resultante da multiplicação
 
     // Imprimir o tamanho das matrizes
     println("Tamanho da matriz A: ${a.size}x${a[0].size}")
@@ -31,7 +32,7 @@ fun main() {
     // Repetir o processo de multiplicação de matrizes e medir o tempo médio de execução
     repeat(repetitions) {
         val elapsedTime = measureNanoTime {
-            val finalResult = multiplyMatrices(a, b) // Multiplicação das matrizes sem paralelismo
+            finalResult = multiplyMatrices(a, b) // Multiplicação das matrizes sem paralelismo
         }
         totalNanoseconds += elapsedTime  // Acumula o tempo total
     }
@@ -47,7 +48,6 @@ fun main() {
     println("Média de tempo de execução em milissegundos: $averageMilliseconds ms")
 
     // Imprimir o resultado final da multiplicação
-    val finalResult = multiplyMatrices(a, b)
     println("\nResultado da multiplicação das matrizes:")
     //printMatrix(finalResult)
 }
