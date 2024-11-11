@@ -33,16 +33,15 @@ fun printMatrix(matrix: Array<DoubleArray>) {
 
 fun main() = runBlocking {
     // Leitura das matrizes de arquivos CSV
-    val a = readMatrixFromCsv("src/matrizes/matriz3.csv")
-    val b = readMatrixFromCsv("src/matrizes/matriz4.csv")
+    val a = readMatrixFromCsv("src/matrizes/matriz1.csv")
+    val b = readMatrixFromCsv("src/matrizes/matriz2.csv")
 
     // Configurações iniciais
-    val repetitions = 1                                         // Número de repetições para medir o tempo médio
-    var totalNanoseconds = 0L                                   // Tempo total em nanosegundos
-    val numThreads = 12                                         // Número de threads
-    val rowsPerThread = a.size / numThreads                     // Número de linhas por thread
-    var results: List<Array<DoubleArray>>                       // Lista de resultados
-    lateinit var finalResult: Array<DoubleArray>                // Resultado final da multiplicação
+    val repetitions = 1                                           // Número de repetições para medir o tempo médio
+    var totalNanoseconds = 0L                                     // Tempo total em nanosegundos
+    val numThreads = 12                                           // Número de threads
+    val rowsPerThread = a.size / numThreads                       // Número de linhas por thread
+    var results = listOf<Array<DoubleArray>>()                    // Lista de resultados
 
     // Imprimir o tamanho das matrizes
     println("Tamanho da matriz A: ${a.size}x${a[0].size}")
@@ -51,7 +50,7 @@ fun main() = runBlocking {
 
     // Repetir o processo de multiplicação de matrizes e medir o tempo médio de execução
     repeat(repetitions) {
-        totalNanoseconds += measureNanoTime {
+        val elapsedTime = measureNanoTime {
             val deferredResults = mutableListOf<Deferred<Array<DoubleArray>>>() // Lista de resultados assíncronos
 
             for (i in 0 ..< numThreads) {
@@ -64,27 +63,29 @@ fun main() = runBlocking {
 
             results = deferredResults.awaitAll()
         }
+        totalNanoseconds += elapsedTime  // Acumula o tempo total
+    }
 
-        // Agora vamos combinar os resultados das threads
-        finalResult = Array(a.size) { DoubleArray(b[0].size) }
-        var rowIndex = 0
-        for (result in results) {
-            for (i in result.indices) {
-                finalResult[rowIndex++] = result[i]
-            }
+    // Combinar os resultados das threads em um único array (finalResult)
+    val finalResult = Array(a.size) { DoubleArray(b[0].size) }
+    var rowIndex = 0
+    for (result in results) {
+        for (i in result.indices) {
+            finalResult[rowIndex++] = result[i]
         }
     }
 
-    val averageNanoseconds  = totalNanoseconds      / repetitions     // Tempo médio em nanosegundos
-    val averageMilliseconds = averageNanoseconds    / 1_000_000.0     // Tempo médio em milissegundos
-    val averageSeconds      = averageNanoseconds    / 1_000_000_000.0 // Tempo médio em segundos
+    // Calcular a média
+    val averageNanoseconds = totalNanoseconds / repetitions           // Tempo médio em nanosegundos
+    val averageMilliseconds = averageNanoseconds / 1_000_000.0       // Tempo médio em milissegundos
+    val averageSeconds = averageNanoseconds / 1_000_000_000.0       // Tempo médio em segundos
 
-    println("\nMédia de tempo de execução em nanosegundos: $averageNanoseconds ns")
+    // Exibir os resultados
+    println("\nMédia de tempo de execução em segundos: %.10f s".format(averageSeconds))
+    println("Média de tempo de execução em nanosegundos: $averageNanoseconds ns")
     println("Média de tempo de execução em milissegundos: $averageMilliseconds ms")
-    println("Média de tempo de execução em segundos: %.10f s".format(averageSeconds))
 
     // Imprimir o resultado final da multiplicação
     println("\nResultado da multiplicação das matrizes:")
     //printMatrix(finalResult)
-    //println(finalResult[0].joinToString(", ") { "%.2f".format(it) })  // Formata a linha para exibição
 }
