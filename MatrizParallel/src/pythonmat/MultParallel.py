@@ -2,6 +2,16 @@ import time
 from multiprocessing import Pool, cpu_count
 import numpy as np
 
+# Esse exemplo possuí paralelismo!
+
+# Aqui está o cerne do paralelismo:
+# Pool.map() distribui as tarefas de forma que cada processo possa executar a função parallel_multiply simultaneamente.
+# parallel_multiply recebe uma tupla com a, b, start_row, e end_row, e chama multiply_matrices para calcular apenas uma
+# parte da matriz resultante.
+# Cada processo calcula a multiplicação parcial de forma independente dos demais.
+
+
+# Função para carregar uma matriz de um CSV
 def load_matrix_from_csv(filename):
     try:
         matrix = np.loadtxt(filename, delimiter=',')
@@ -10,6 +20,7 @@ def load_matrix_from_csv(filename):
         print(f"Erro ao carregar o arquivo {filename}: {e}")
         return None
 
+# Função que multiplica duas matrizes de forma parcial
 def multiply_matrices(a, b, start_row, end_row):
     result = []
     for i in range(start_row, end_row):
@@ -19,10 +30,12 @@ def multiply_matrices(a, b, start_row, end_row):
         result.append(result_row)
     return result
 
+# Função que desembrulha os parâmetros
 def parallel_multiply(a_b_tuple):
     a, b, start_row, end_row = a_b_tuple
     return multiply_matrices(a, b, start_row, end_row)
 
+# Main()
 def measure_execution_time():
     # Carrega as matrizes dos arquivos CSV
     a = load_matrix_from_csv('src/matrizes/matriz1.csv')
@@ -36,22 +49,25 @@ def measure_execution_time():
         print("Erro ao carregar as matrizes. Verifique os arquivos CSV.")
         return
 
-    num_runs = 1                    # Número de vezes que o código será executado
-    total_time = 0                  # Tempo total de execução
-    num_processes = cpu_count()     # Número de processos a serem usados
-    num_rows = len(a)               # Número de linhas da matriz a
-    final_result = []               # Resultado da multiplicação
+    num_runs = 1                                    # Número de vezes que o código será executado
+    total_time = 0                                  # Tempo total de execução
+    num_processes = cpu_count()                     # Número de processos a serem usados
+    num_rows = len(a)                               # Número de linhas da matriz a
+    final_result = []                               # Resultado da multiplicação
+    rows_per_process = num_rows // num_processes    # Número de linhas por processos
 
     print("Número de processos: ", num_processes)
 
     for _ in range(num_runs):
-        rows_per_process = num_rows // num_processes
         tasks = []
+
+        # Cria as tuplas com as tarefas de cada processo
         for i in range(num_processes):
             start_row = i * rows_per_process
             end_row = (i + 1) * rows_per_process if i != num_processes - 1 else num_rows
             tasks.append((a, b, start_row, end_row))
 
+        # Inicia a contagem
         start_time = time.perf_counter()
 
         # Executa os processos com o Pool
@@ -61,6 +77,7 @@ def measure_execution_time():
         # Combina os resultados usando np.vstack() para empilhar as linhas
         final_result = np.vstack(results)  # Combina as partes das matrizes multiplicadas
 
+        # finaliza a contagem
         end_time = time.perf_counter()
         total_time += (end_time - start_time)
 

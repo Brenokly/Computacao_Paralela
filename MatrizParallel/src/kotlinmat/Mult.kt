@@ -2,6 +2,9 @@ package kotlinmat
 
 import kotlin.system.measureNanoTime
 
+
+// Sem paralelismo!
+
 fun multiplyMatrices(a: Array<DoubleArray>, b: Array<DoubleArray>): Array<DoubleArray> {
     val result = Array(a.size) { DoubleArray(b[0].size) }
     for (i in a.indices) {              // Iterar sobre as linhas da matriz A

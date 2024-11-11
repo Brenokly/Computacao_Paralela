@@ -4,6 +4,22 @@ import kotlinx.coroutines.*
 import java.io.File
 import kotlin.system.measureNanoTime
 
+// Nesse exemplo, tem paralelismo!
+
+/*
+    O Dispatchers.Default é um dispatcher de corrotina que distribui a execução das corrotinas para threads do pool de threads
+    de background do Kotlin. Ele utiliza múltiplos threads do sistema para realizar o trabalho em paralelo.
+    A criação de múltiplas corrotinas (scope.async) com esse dispatcher faz com que cada corrotina seja executada em paralelo,
+    otimizando o uso dos núcleos de CPU disponíveis.
+*/
+
+// matriz1.csv e matriz2.csv são matrizes de 1473x1473
+
+// matriz3.csv e matriz4.csv são matrizes de 500x500
+
+// matriz5.csv e matriz6.csv são matrizes de 100x100
+
+// Funçãpo para multiplicar matrizes
 suspend fun multiplyMatrices(a: Array<DoubleArray>, b: Array<DoubleArray>, startRow: Int, endRow: Int): Array<DoubleArray> {
     val result = Array(endRow - startRow) { DoubleArray(b[0].size) }
     for (i in startRow until endRow) { // Iterar sobre as linhas da matriz A
@@ -14,6 +30,7 @@ suspend fun multiplyMatrices(a: Array<DoubleArray>, b: Array<DoubleArray>, start
     return result
 }
 
+// Função para ler uma matriz de um arquivo CSV
 fun readMatrixFromCsv(filePath: String): Array<DoubleArray> {
     val lines = File(filePath).readLines()
     return lines.map { line ->
@@ -21,6 +38,7 @@ fun readMatrixFromCsv(filePath: String): Array<DoubleArray> {
     }.toTypedArray()
 }
 
+// Função para imprimir uma matriz
 fun printMatrix(matrix: Array<DoubleArray>) {
     for (row in matrix) {
         println(row.joinToString(", ") { "%.2f".format(it) })
@@ -29,8 +47,8 @@ fun printMatrix(matrix: Array<DoubleArray>) {
 
 fun main() = runBlocking {
     // Leitura das matrizes de arquivos CSV
-    val a = readMatrixFromCsv("src/matrizes/matriz5.csv")
-    val b = readMatrixFromCsv("src/matrizes/matriz6.csv")
+    val a = readMatrixFromCsv("src/matrizes/matriz3.csv")
+    val b = readMatrixFromCsv("src/matrizes/matriz4.csv")
 
     // Configurações iniciais
     val repetitions = 1
