@@ -22,8 +22,8 @@ def multiply_matrices(a, b):
 
 def measure_execution_time():
     # Carrega as matrizes dos arquivos CSV
-    a = load_matrix_from_csv('src/matrizes/matriz1.csv')
-    b = load_matrix_from_csv('src/matrizes/matriz2.csv')
+    a = load_matrix_from_csv('src/matrizes/matriz3.csv')
+    b = load_matrix_from_csv('src/matrizes/matriz4.csv')
 
     # Verificar se as matrizes foram carregadas corretamente
     if a is not None and b is not None:

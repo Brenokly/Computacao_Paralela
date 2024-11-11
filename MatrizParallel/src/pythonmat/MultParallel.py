@@ -25,8 +25,8 @@ def parallel_multiply(a_b_tuple):
 
 def measure_execution_time():
     # Carrega as matrizes dos arquivos CSV
-    a = load_matrix_from_csv('src/matrizes/matriz3.csv')
-    b = load_matrix_from_csv('src/matrizes/matriz4.csv')
+    a = load_matrix_from_csv('src/matrizes/matriz1.csv')
+    b = load_matrix_from_csv('src/matrizes/matriz2.csv')
 
     # Verificar se as matrizes foram carregadas corretamente
     if a is not None and b is not None:
