@@ -55,4 +55,4 @@ Apesar de Python ser amplamente utilizada pela sua simplicidade, o **Global Inte
 
 ---
 
-🌟 Sinta-se à vontade para contribuir com o projeto e compartilhar suas ideias! Vamos juntos explorar o fascinante mundo da programação paralela! 💻✨
+🌟 Sinta-se à vontade para contribuir com o projeto e compartilhar suas ideias!
