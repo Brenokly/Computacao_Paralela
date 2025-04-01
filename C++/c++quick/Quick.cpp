@@ -49,5 +49,15 @@ int main() {
     cout << "\nQuickSort Paralelo:" << endl;
     printResult(parallelTime);
 
+    // Comparação da ordenação dos dois métodos
+	cout << "\nComparando os resultados..." << endl;
+	for (int i = 0; i < size; i++) {
+		if (arraySequential[i] != arrayParallel[i]) {
+			cout << "Os vetores são diferentes!" << endl;
+			return 1;
+		}
+	}
+	cout << "Os vetores são iguais!" << endl;
+
     return 0;
 }
