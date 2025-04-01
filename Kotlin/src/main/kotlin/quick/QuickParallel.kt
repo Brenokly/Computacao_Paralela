@@ -35,4 +35,16 @@ fun main() = runBlocking {
     printResult(sequencialTimeTotal / 10)
     println("\nQuickSort Paralelo:")
     printResult(parallelTimeTotal / 10)
+
+    // Speedup
+    val speedup = (sequencialTimeTotal / 10).toDouble() / (parallelTimeTotal / 10)
+    println("\nSpeedup: ${"%.2f".format(speedup)}x")
+
+    // Arrays iguais?
+    val isEqual = arraySequential.contentEquals(arrayParallel)
+    println("Arrays iguais: $isEqual")
+
+    // array ordenado?
+    val isSorted = arraySequential.sortedArray().contentEquals(arraySequential)
+    println("Array ordenado: $isSorted")
 }

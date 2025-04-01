@@ -64,9 +64,9 @@ fun randomPartition(arr: IntArray, low: Int, high: Int): Int {
     return partition(arr, low, high)
 }
 
-fun printResult(elapsedTime: Long) {
+fun printResult(elapsedTimeQuick: Long) {
     // Calcular a média
-    val averageNanoseconds = elapsedTime
+    val averageNanoseconds = elapsedTimeQuick
     val averageMilliseconds = averageNanoseconds / 1_000_000.0       // Tempo médio em milissegundos
     val averageSeconds = averageNanoseconds / 1_000_000_000.0        // Tempo médio em segundos
 

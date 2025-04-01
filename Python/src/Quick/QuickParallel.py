@@ -1,25 +1,9 @@
 import random
 import time
 import concurrent.futures
-from multiprocessing import cpu_count
-
-# Função para realizar o QuickSort sequencial
-def quick_sort(arr, low=0, high=None):
-    if high is None:
-        high = len(arr) - 1
-
-    if low < high:
-        pivot_index = random_partition(arr, low, high)
-        quick_sort(arr, low, pivot_index - 1)
-        quick_sort(arr, pivot_index + 1, high)
+from multiprocessing import cpu_count, RawArray
 
 # Função para realizar a partição do array
-def random_partition(arr, low, high):
-    pivot_index = random.randint(low, high)
-    arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
-    return partition(arr, low, high)
-
-# Função que efetua a troca dos elementos do array
 def partition(arr, low, high):
     pivot = arr[high]
     i = low - 1
@@ -30,54 +14,71 @@ def partition(arr, low, high):
     arr[i + 1], arr[high] = arr[high], arr[i + 1]
     return i + 1
 
-# Função para realizar o QuickSort paralelo usando concurrent.futures
-def parallel_quick_sort(arr, low=0, high=None, depth=0, max_depth=4):
+# QuickSort sequencial
+def quick_sort(arr, low=0, high=None):
     if high is None:
         high = len(arr) - 1
-
     if low < high:
         pivot_index = partition(arr, low, high)
+        quick_sort(arr, low, pivot_index - 1)
+        quick_sort(arr, pivot_index + 1, high)
+
+# Função auxiliar para criar um array compartilhado
+def to_shared_array(lst):
+    return RawArray('i', lst)
+
+# QuickSort paralelo usando threads
+def parallel_quick_sort(shared_arr, low=0, high=None, depth=0, max_depth=4):
+    if high is None:
+        high = len(shared_arr) - 1
+
+    if low < high:
+        pivot_index = partition(shared_arr, low, high)
 
         if depth < max_depth:
-            # Usando ThreadPoolExecutor ou ProcessPoolExecutor para evitar o problema com processos daemon
-            with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count()) as executor:
-                futures = [
-                    executor.submit(parallel_quick_sort, arr, low, pivot_index - 1, depth + 1, max_depth),
-                    executor.submit(parallel_quick_sort, arr, pivot_index + 1, high, depth + 1, max_depth)
-                ]
-                concurrent.futures.wait(futures)  # Aguarda as tarefas completarem
+            with concurrent.futures.ThreadPoolExecutor(max_workers=cpu_count()) as executor:
+                left_future = executor.submit(parallel_quick_sort, shared_arr, low, pivot_index - 1, depth + 1, max_depth)
+                right_future = executor.submit(parallel_quick_sort, shared_arr, pivot_index + 1, high, depth + 1, max_depth)
+                concurrent.futures.wait([left_future, right_future])
         else:
-            quick_sort(arr, low, pivot_index - 1)
-            quick_sort(arr, pivot_index + 1, high)
+            quick_sort(shared_arr, low, pivot_index - 1)
+            quick_sort(shared_arr, pivot_index + 1, high)
 
-# Função para converter tempo para diferentes unidades
-def format_time(seconds):
-    milliseconds = seconds * 1000
-    nanoseconds = seconds * 1e9
-    return f"{seconds:.6f} s | {milliseconds:.3f} ms | {nanoseconds:.0f} ns"
-
-# Função principal onde o código será executado
+# Teste do QuickSort Paralelo e Sequencial
 if __name__ == '__main__':
-    size = 2000000  # Tamanho do array de teste
-    arr_sequential = [random.randint(0, 2000001) for _ in range(size)]
-    arr_parallel = arr_sequential.copy()
+    size = 1000000  # Tamanho do array de teste
+    original_array = [random.randint(0, 1000001) for _ in range(size)]
+    
+    # Criamos um array compartilhado entre threads
+    shared_array = to_shared_array(original_array)
+    arr_sequential = original_array[:]  # Cópia para execução sequencial
 
     print(f"Tamanho do array: {size}")
     print("Iniciando ordenação...")
 
     # Teste QuickSort Sequencial
     start_time = time.perf_counter()
-    for i in range(10):
-        quick_sort(arr_sequential)
-    sequential_time = (time.perf_counter() - start_time) / 10
+    quick_sort(arr_sequential)
+    sequential_time = time.perf_counter() - start_time
 
-    # Teste QuickSort Paralelo
+    # Teste QuickSort Paralelo com Threads
     start_time = time.perf_counter()
-    for i in range(10):
-        parallel_quick_sort(arr_parallel)
-    parallel_time = (time.perf_counter() - start_time) / 10
+    parallel_quick_sort(shared_array)
+    parallel_time = time.perf_counter() - start_time
+
+    # Converter o array compartilhado de volta para lista normal
+    arr_parallel = list(shared_array)
 
     # Exibir resultados
     print("\n--- Resultados ---")
-    print(f"Tempo médio de 10 execuções do QuickSort Sequencial: {format_time(sequential_time)}")
-    print(f"Tempo médio de 10 execuções do QuickSort Paralelo: {format_time(parallel_time)}")
+    print(f"Tempo do QuickSort Sequencial: {sequential_time:.6f} s")
+    print(f"Tempo do QuickSort Paralelo: {parallel_time:.6f} s")
+    print(f"Speedup: {sequential_time / parallel_time:.2f}x")
+
+    # Verifica se o resultado é correto
+    if arr_sequential == arr_parallel:
+        print("Os resultados são CORRETOS.")
+    else:
+        print("ERRO: Os resultados são diferentes!")
+
+    print("Ordenação concluída.")

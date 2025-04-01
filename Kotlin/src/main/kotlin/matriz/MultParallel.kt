@@ -1,7 +1,7 @@
-package kotlinmat
+package matriz
 
 import kotlinx.coroutines.*
-import java.io.File
+import quick.printResult
 import kotlin.system.measureNanoTime
 
 // Nesse exemplo, tem paralelismo!
@@ -19,39 +19,14 @@ import kotlin.system.measureNanoTime
 
 // matriz5.csv e matriz6.csv são matrizes de 100x100
 
-// Funçãpo para multiplicar matrizes
-suspend fun multiplyMatrices(a: Array<DoubleArray>, b: Array<DoubleArray>, startRow: Int, endRow: Int): Array<DoubleArray> {
-    val result = Array(endRow - startRow) { DoubleArray(b[0].size) }
-    for (i in startRow until endRow) { // Iterar sobre as linhas da matriz A
-        for (j in b[0].indices) {   // Iterar sobre as colunas da matriz B
-            result[i - startRow][j] = b.indices.sumOf { a[i][it] * b[it][j] }
-        }
-    }
-    return result
-}
-
-// Função para ler uma matriz de um arquivo CSV
-fun readMatrixFromCsv(filePath: String): Array<DoubleArray> {
-    val lines = File(filePath).readLines()
-    return lines.map { line ->
-        line.split(",").map { it.trim().toDouble() }.toDoubleArray()
-    }.toTypedArray()
-}
-
-// Função para imprimir uma matriz
-fun printMatrix(matrix: Array<DoubleArray>) {
-    for (row in matrix) {
-        println(row.joinToString(", ") { "%.2f".format(it) })
-    }
-}
 
 fun main() = runBlocking {
     // Leitura das matrizes de arquivos CSV
-    val a = readMatrixFromCsv("D:/GIT/Computacao_Paralela/MatrizParallel/src/matrizproblem/matrizes/matriz1.csv")
-    val b = readMatrixFromCsv("D:/GIT/Computacao_Paralela/MatrizParallel/src/matrizproblem/matrizes/matriz2.csv")
+    val a = readMatrixFromCsv("src/main/kotlin/matriz/matrizes/matriz1.csv")
+    val b = readMatrixFromCsv("src/main/kotlin/matriz/matrizes/matriz1.csv")
 
-    // Configurações iniciais
-    val repetitions = 1
+    // Configurações Gerais
+    val repetitions = 10
     var totalNanoseconds = 0L
     val numThreads = 12
     val rowsPerThread = a.size / numThreads
@@ -88,25 +63,37 @@ fun main() = runBlocking {
     }
 
     // Combinar os resultados das threads em um único array (finalResult)
-    val finalResult = Array(a.size) { DoubleArray(b[0].size) }
+    val finalResultParallel = Array(a.size) { DoubleArray(b[0].size) }
     var rowIndex = 0
     for (result in results) {
         for (i in result.indices) {
-            finalResult[rowIndex++] = result[i]
+            finalResultParallel[rowIndex++] = result[i]
         }
     }
 
-    // Calcular a média
-    val averageNanoseconds = totalNanoseconds / repetitions
-    val averageMilliseconds = averageNanoseconds / 1_000_000.0
-    val averageSeconds = averageNanoseconds / 1_000_000_000.0
+    // Exibir os resultados da multiplicação paralela
+    println("\nResultado da multiplicação paralela:")
+    printResult(totalNanoseconds / repetitions)
 
-    // Exibir os resultados
-    println("\nMédia de tempo de execução em segundos: %.10f s".format(averageSeconds))
-    println("Média de tempo de execução em nanosegundos: $averageNanoseconds ns")
-    println("Média de tempo de execução em milissegundos: $averageMilliseconds ms")
+    totalNanoseconds = 0L  // Reinicia o tempo total para a multiplicação sequencial
 
-    // Imprimir o resultado final da multiplicação
-    println("\nResultado da multiplicação das matrizes:")
-    //printMatrix(finalResult)
+    var finalResultSequence = Array(0) { doubleArrayOf() }  // Matriz resultante da multiplicação
+    // Repetir o processo de multiplicação de matrizes e medir o tempo médio de execução
+    repeat(repetitions) {
+        val elapsedTime = measureNanoTime {
+            finalResultSequence = multiplyMatrices(a, b) // Multiplicação das matrizes sem paralelismo
+        }
+        totalNanoseconds += elapsedTime  // Acumula o tempo total
+    }
+
+    // Exibir os resultados da multiplicação sequencial
+    println("\nResultado da multiplicação sequencial:")
+    printResult(totalNanoseconds / repetitions)
+
+    // Verifica se os resultados são iguais
+    if (finalResultParallel.contentDeepEquals(finalResultSequence)) {
+        println("Os resultados são iguais!")
+    } else {
+        println("Os resultados são diferentes!")
+    }
 }
