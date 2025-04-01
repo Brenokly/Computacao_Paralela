@@ -70,7 +70,7 @@ Na execução, cada thread recebe um intervalo de linhas e realiza a multiplica�
 
 Em **C++**, a abordagem é similar, utilizando `std::async` para executar a multiplicação em paralelo.
 
-Em **Python**, utilizamos `concurrent.futures.ThreadPoolExecutor` para distribuir as tarefas entre múltiplos processos.
+Em **Python**, utilizamos `multiprocessing` para distribuir as tarefas entre múltiplos processos.
 
 ### 📚 Quicksort Paralelo
 
@@ -98,7 +98,7 @@ suspend fun parallelQuickSort(arr: IntArray, low: Int = 0, high: Int = arr.size 
 }
 ```
 
-A abordagem em **C++** e **Python** segue o mesmo princípio, utilizando `std::async` e `ThreadPoolExecutor`, respectivamente.
+A abordagem em **C++** e **Python** segue o mesmo princípio, utilizando `std::async` e `concurrent.futures.ProcessPoolExecutor`, respectivamente.
 
 ## 🎓 Conclusões
 
