@@ -6,53 +6,118 @@
 
 ## 📚 Introdução
 
-A **programação paralela** é essencial para maximizar o desempenho de aplicações modernas, aproveitando ao máximo os recursos de hardware disponíveis, especialmente em processadores multicore. Este repositório contém os resultados da pesquisa sobre como implementar e avaliar programas paralelos nas linguagens **Python** e **Kotlin**.
+A **programação paralela** é essencial para maximizar o desempenho de aplicações modernas, explorando ao máximo os recursos de hardware, especialmente em processadores multicore. Este repositório contém os resultados de uma pesquisa sobre como implementar e avaliar programas paralelos nas linguagens **Python, Kotlin e C++**.
 
 ## 💡 Justificativa
 
-Apesar de Python ser amplamente utilizada pela sua simplicidade, o **Global Interpreter Lock (GIL)** pode limitar a execução paralela de threads. Neste projeto, exploramos como contornar essas limitações utilizando bibliotecas como `multiprocessing` e `concurrent.futures`. Por outro lado, Kotlin, com suas **coroutines**, oferece uma abordagem robusta e intuitiva para programação paralela. Este estudo visa comparar o desempenho, a facilidade de uso e a manutenção do código entre essas duas linguagens.
+Apesar de Python ser amplamente utilizado devido à sua simplicidade, o **Global Interpreter Lock (GIL)** pode limitar a execução paralela de threads. Para contornar essa limitação, utilizamos as bibliotecas `multiprocessing` e `concurrent.futures`.
+
+Kotlin, por sua vez, oferece um modelo eficiente de concorrência por meio de **coroutines**, permitindo uma execução assíncrona de forma intuitiva e performática.
+
+Já em **C++**, utilizamos `std::async` e `std::future` para implementar o paralelismo, tirando proveito da execução concorrente de tarefas.
+
+Este estudo visa comparar **desempenho, facilidade de uso e manutenção do código** entre essas três abordagens.
 
 ## 🎯 Objetivos
 
-- **Geral**: Implementar e avaliar programas paralelos utilizando Python e Kotlin.
+- **Geral**: Implementar e avaliar programas paralelos utilizando Python, Kotlin e C++.
 - **Específicos**:
   - Desenvolver programas paralelos para resolver problemas computacionais clássicos.
-  - Analisar a sintaxe e os recursos de ambas as linguagens para programação paralela.
-  - Avaliar a performance das implementações.
+  - Analisar a sintaxe e os recursos de cada linguagem para programação paralela.
+  - Avaliar o desempenho das implementações.
   - Documentar as diferenças na facilidade de implementação e manutenção.
 
 ## 🔍 Metodologia
 
-1. **Revisão Bibliográfica**: Estudo sobre programação paralela e bibliotecas relevantes em Python e Kotlin.
-2. **Configuração do Ambiente de Desenvolvimento**: Instalação e configuração das IDEs e bibliotecas necessárias.
-3. **Implementação dos Programas**: Desenvolvimento de soluções paralelas em ambas as linguagens.
-4. **Testes e Avaliação de Desempenho**: Medição de tempo de execução e uso de recursos.
-5. **Documentação e Análise Comparativa**: Comparação das implementações e elaboração de um relatório final.
+1. **Revisão Bibliográfica**: Estudo sobre programação paralela e bibliotecas relevantes em Python, Kotlin e C++.
+2. **Configuração do Ambiente**: Instalação e configuração das IDEs e bibliotecas necessárias.
+3. **Implementação**: Desenvolvimento de soluções paralelas para problemas computacionais clássicos.
+4. **Testes e Avaliação de Desempenho**: Medidas de tempo de execução e consumo de recursos.
+5. **Análise Comparativa**: Comparar implementações e documentar os resultados.
 
-## 🛠️ Habilidades Adquiridas
+## 🛠️ Algoritmos Implementados
 
-- Compreensão dos conceitos e técnicas de programação paralela.
-- Experiência prática com Python e Kotlin, incluindo bibliotecas de paralelismo e coroutines.
-- Habilidades de análise e resolução de problemas, documentação técnica e comunicação de resultados.
+Foram testados dois algoritmos computacionais com **threads**:
+
+1. **Multiplicação de Matrizes**
+2. **Quicksort Paralelo**
+
+As bibliotecas utilizadas foram:
+
+- **Kotlin**: `coroutines`
+- **C++**: `std::future` com tarefas `async`
+- **Python**: `multiprocessing` e `concurrent.futures`
+
+### 📚 Multiplicação de Matrizes Paralela
+
+A ideia geral da multiplicação de matrizes paralela consiste em dividir o cálculo das linhas entre múltiplas threads, onde cada thread calcula um subconjunto das linhas da matriz resultado.
+
+#### Implementação em Kotlin:
+
+```kotlin
+suspend fun multiplyMatrices(a: Array<DoubleArray>, b: Array<DoubleArray>, startRow: Int, endRow: Int): Array<DoubleArray> {
+    val result = Array(endRow - startRow) { DoubleArray(b[0].size) }
+    for (i in startRow until endRow) {
+        for (j in b[0].indices) {
+            result[i - startRow][j] = b.indices.sumOf { a[i][it] * b[it][j] }
+        }
+    }
+    return result
+}
+```
+
+Na execução, cada thread recebe um intervalo de linhas e realiza a multiplicação. No final, os resultados são combinados.
+
+Em **C++**, a abordagem é similar, utilizando `std::async` para executar a multiplicação em paralelo.
+
+Em **Python**, utilizamos `concurrent.futures.ThreadPoolExecutor` para distribuir as tarefas entre múltiplos processos.
+
+### 📚 Quicksort Paralelo
+
+O **Quicksort** foi implementado com paralelismo ao dividir recursivamente os subarrays em diferentes threads até um nível limite de profundidade.
+
+#### Implementação em Kotlin:
+
+```kotlin
+suspend fun parallelQuickSort(arr: IntArray, low: Int = 0, high: Int = arr.size - 1, depth: Int = 0, maxDepth: Int = 10) {
+    if (low < high) {
+        val pivotIndex = randomPartition(arr, low, high)
+
+        if (depth < maxDepth) {
+            coroutineScope {
+                val left = async(Dispatchers.Default) { parallelQuickSort(arr, low, pivotIndex - 1, depth + 1, maxDepth) }
+                val right = async(Dispatchers.Default) { parallelQuickSort(arr, pivotIndex + 1, high, depth + 1, maxDepth) }
+                left.await()
+                right.await()
+            }
+        } else {
+            quickSort(arr, low, pivotIndex - 1)
+            quickSort(arr, pivotIndex + 1, high)
+        }
+    }
+}
+```
+
+A abordagem em **C++** e **Python** segue o mesmo princípio, utilizando `std::async` e `ThreadPoolExecutor`, respectivamente.
+
+## 🎓 Conclusões
+
+- **Python** é mais simples de implementar, mas o GIL limita seu desempenho real.
+- **Kotlin** oferece um modelo flexível e eficiente com `coroutines`, facilitando a implementação.
+- **C++** apresenta a melhor performance bruta, mas requer mais complexidade na gestão das threads.
 
 ## 📑 Referências
 
-- FORBES, Elliot. *Learning Concurrency in Python: Build highly efficient, robust, and concurrent applications*. 2017.
-- LEA, Douglas. *Concurrent programming in Java: design principles and patterns*. Addison-Wesley Professional, 2000.
-- GOETZ, Brian. *Java concurrency in practice*. Pearson Education, 2006.
-- BLOCH, Joshua. *Effective Java 2nd Edition*. 2008.
-- GRAMA, Ananth. *An Introduction to Parallel Computing: Design and Analysis of Algorithms, 2/e*. Pearson Education India, 2008.
-- ELIZAROV, Roman et al. *Kotlin coroutines: design and implementation*. In: Proceedings of the 2021 ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software. 2021.
+- FORBES, Elliot. *Learning Concurrency in Python*, 2017.
+- GOETZ, Brian. *Java Concurrency in Practice*, 2006.
+- ELIZAROV, Roman et al. *Kotlin Coroutines: Design and Implementation*, 2021.
 
 ## 👨‍🎓 Projeto de Pesquisa
 
 - **Orientador**: Paulo Henrique Lopes Silva
-- **Centro**: Centro de Ciências Exatas e Naturais
-- **Departamento**: Departamento de Computação
 - **Discente**: Breno Klywer Olegario de Moura
-- **Status do Plano**: Em Andamento
-- **Edital**: Edital 21/2024 - Iniciação Científica
+- **Status**: Em Andamento
 
 ---
 
-🌟 Sinta-se à vontade para contribuir com o projeto e compartilhar suas ideias!
+🌟 Fique à vontade para contribuir com o projeto e compartilhar suas ideias!
