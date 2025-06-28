@@ -1,8 +1,12 @@
 ﻿  Functions.cpp
-  Quick.cpp
-  Gerando código
-  10 of 952 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+  main.cpp
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(64,40): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(67,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(32,34): warning C4101: 'e': unreferenced local variable
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(43,38): warning C4101: 'e': unreferenced local variable
+  Generating code
+  0 of 941 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
-  Finalizada a geração de código
+  Finished generating code
   c++quick.vcxproj -> D:\GIT\Computacao_Paralela\C++\x64\Release\c++quick.exe

@@ -1,4 +1,8 @@
 ﻿  Functions.cpp
-  Quick.cpp
-  Gerando Código...
+  main.cpp
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(64,40): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(67,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(32,34): warning C4101: 'e': unreferenced local variable
+D:\GIT\Computacao_Paralela\C++\c++quick\main.cpp(43,38): warning C4101: 'e': unreferenced local variable
+  Generating Code...
   c++quick.vcxproj -> D:\GIT\Computacao_Paralela\C++\x64\Debug\c++quick.exe

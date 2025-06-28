@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Functions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|solutionrelative:c\u002B\u002Bquick\\Functions.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Quick.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|solutionrelative:c\u002B\u002Bquick\\Quick.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Functions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|solutionrelative:c\u002B\u002Bquick\\Functions.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{F50CCDCA-22B5-44A7-9842-4C780D241740}|c\u002B\u002Bquick\\c\u002B\u002Bquick.vcxproj|solutionrelative:c\u002B\u002Bquick\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,46 +14,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Quick.cpp",
-              "DocumentMoniker": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Quick.cpp",
-              "RelativeDocumentMoniker": "c\u002B\u002Bquick\\Quick.cpp",
-              "ToolTip": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Quick.cpp",
-              "RelativeToolTip": "c\u002B\u002Bquick\\Quick.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAgAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\main.cpp",
+              "RelativeDocumentMoniker": "c\u002B\u002Bquick\\main.cpp",
+              "ToolTip": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\main.cpp",
+              "RelativeToolTip": "c\u002B\u002Bquick\\main.cpp",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADcAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-31T11:18:48.559Z",
               "IsPinned": true,
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Functions.cpp",
-              "DocumentMoniker": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Functions.cpp",
-              "RelativeDocumentMoniker": "c\u002B\u002Bquick\\Functions.cpp",
-              "ToolTip": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Functions.cpp",
-              "RelativeToolTip": "c\u002B\u002Bquick\\Functions.cpp",
-              "ViewState": "AgIAADQAAAAAAAAAAAA0wFcAAABcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-31T12:01:32.565Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Functions.h",
-              "DocumentMoniker": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Functions.h",
-              "RelativeDocumentMoniker": "c\u002B\u002Bquick\\Functions.h",
-              "ToolTip": "D:\\GIT\\Computacao_Paralela\\C\u002B\u002B\\c\u002B\u002Bquick\\Functions.h",
-              "RelativeToolTip": "c\u002B\u002Bquick\\Functions.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-31T12:03:52.12Z"
             }
           ]
         }
