@@ -54,13 +54,6 @@ Para replicar o ambiente de teste e executar os benchmarks, você precisará do 
 
 Para compilar o código C++ eu necessitei do Visual Studio Community, gerando há versão release com suas devidas otimizações.
 
-   ```
-3. Execute:
-
-   ```bash
-   ./quicksort_cpp.exe
-   ```
-
 ### Script que Executa o BenchMark
 
 1. Execute diretamente:
