@@ -1,8 +1,3 @@
-Claro, peço desculpas por qualquer problema na formatação anterior.
-
-Aqui está o conteúdo completo e atualizado para o seu arquivo `README.md`. Ele está no formato Markdown, pronto para ser copiado e colado diretamente no GitHub.
-
-```markdown
 # 🐍 Implementação e Avaliação de Programas Paralelos usando C++, Kotlin e Python 🚀
 
 **Curso:** Ciência da Computação 💻  
@@ -91,5 +86,3 @@ A avaliação foi conduzida sob uma metodologia de benchmark rigorosa para garan
 ## 📑 Referência Principal
 
 > Moura, B. K. O. de, & Silva, P. H. L. (2024). *Implementação e Avaliação de Programas Paralelos usando C++, Kotlin e Python*. [cite_start]Departamento de Computação, Universidade Federal Rural do Semi-Árido (UFERSA). [cite: 1]
-
-```
