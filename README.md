@@ -1,116 +1,86 @@
-🚀 Implementação e Avaliação de Programas Paralelos: C++, Kotlin e Python
-Curso: Ciência da Computação 💻
-Universidade: Ufersa - Universidade Federal Rural do Semi-Árido 🌱
-Status do Projeto: Andamento - 2025
-📄 Resumo do Projeto
+# 🐍 Implementação e Avaliação de Programas Paralelos usando C++, Kotlin e Python 🚀
 
-Este repositório apresenta uma análise comparativa de desempenho da paralelização de algoritmos clássicos — QuickSort e Multiplicação de Matrizes — utilizando C++, Kotlin e Python. O objetivo foi quantificar os trade-offs de desempenho, escalabilidade e complexidade de implementação em arquiteturas multicore modernas.
+**Curso:** Ciência da Computação 💻  
+**Universidade:** UFERSA - Universidade Federal Rural do Semi-Árido 🌱  
+**Status:** Pesquisa Concluída ✅
 
-Os resultados, obtidos através de uma metodologia de benchmark rigorosa, demonstram que C++ e Kotlin oferecem desempenho e escalabilidade significativamente superiores para tarefas intensivas em CPU, enquanto as bibliotecas padrão de Python se mostraram inadequadas para este tipo de paralelismo de alta performance.
-🏆 Principais Contribuições e Descobertas
+**Autores:**
+* **Discente:** Breno Klywer Olegario de Moura
+* **Orientador:** Paulo Henrique Lopes Silva
 
-Este estudo resultou em três contribuições principais para o entendimento prático do paralelismo em diferentes ecossistemas:
+Este repositório documenta a pesquisa e os resultados do artigo **"Implementação e Avaliação de Programas Paralelos usando C++, Kotlin e Python"**, que realiza uma análise comparativa de desempenho entre as três linguagens na paralelização de algoritmos clássicos.
 
-    Identificação do Ponto de Inflexão em C++: Demonstramos quantitativamente o "ponto ideal" (maxDepth ótimo) no QuickSort paralelo, onde o overhead de criação de threads com std::async supera os ganhos do paralelismo, resultando em uma degradação de performance.
+## 📚 Resumo da Pesquisa
 
-    Demonstração do Risco de Deadlock em Python: Comprovamos empiricamente que o uso de concurrent.futures.ThreadPoolExecutor em algoritmos recursivos, como o QuickSort, leva a um deadlock à medida que a profundidade da recursão aumenta, travando a aplicação.
+[cite_start]A computação paralela é fundamental para extrair o máximo de desempenho de processadores multicore. [cite: 2, 11] [cite_start]A escolha da linguagem e do paradigma de programação, no entanto, impacta diretamente a eficiência, a escalabilidade e a complexidade do desenvolvimento. [cite: 3]
 
-    Análise Comparativa de Gargalos:
+[cite_start]Este estudo apresenta uma análise de desempenho comparativa da paralelização do **Quicksort** e da **Multiplicação de Matrizes** utilizando C++, Kotlin e Python. [cite: 4]
 
-        Python (GIL): O Global Interpreter Lock torna o paralelismo com threads ineficaz para tarefas de CPU.
+* [cite_start]Em **C++**, exploramos o paralelismo nativo com `std::async`. [cite: 5]
+* [cite_start]Em **Kotlin**, utilizamos corrotinas sobre a JVM para obter paralelismo gerenciado. [cite: 5]
+* [cite_start]Em **Python**, avaliamos o `ThreadPoolExecutor` (limitado pelo GIL) e a biblioteca `multiprocessing` para contornar o Global Interpreter Lock (GIL) em tarefas de uso intensivo da CPU. [cite: 6]
 
-        Python (IPC): O custo de serialização de dados (IPC) na biblioteca multiprocessing anula completamente os ganhos do paralelismo em tarefas com comunicação frequente, como a multiplicação de matrizes.
+## 🎯 Objetivos Atingidos
 
-        Kotlin (Corrotinas): O modelo de corrotinas sobre a JVM, com seu scheduler inteligente (work-stealing), mostrou-se extremamente robusto, produtivo e escalável.
+* [cite_start]**Avaliação Empírica Rigorosa:** Medimos o desempenho e a escalabilidade das implementações em hardware de commodity (AMD Ryzen 5 5600G, 6 núcleos/12 threads). [cite: 21, 37]
+* [cite_start]**Análise de Gargalos:** Investigamos o impacto do GIL em Python, os custos de comunicação entre processos (IPC) e a eficiência dos modelos de agendamento de tarefas de cada ecossistema. [cite: 23]
+* [cite_start]**Identificação de Pontos Críticos:** Demonstramos quantitativamente o "ponto de inflexão" (`maxDepth` ótimo) onde o overhead de criação de threads em C++ supera os ganhos do paralelismo e o risco de deadlock em implementações recursivas com `ThreadPoolExecutor` em Python. [cite: 8, 22]
 
-🛠️ Algoritmos e Abordagens Técnicas
+## 🛠️ Metodologia
 
-Foram implementados dois algoritmos para testar diferentes cenários de paralelismo.
-1. QuickSort Paralelo
+[cite_start]A avaliação foi conduzida sob uma metodologia de benchmark rigorosa para garantir a validade estatística. [cite: 36]
 
-Um algoritmo de "dividir para conquistar", onde a paralelização intensiva de pequenas tarefas testa a eficiência do gerenciador de threads e o custo de overhead.
+1.  **Ambiente de Teste:**
+    * [cite_start]**CPU:** AMD Ryzen 5 5600G (6 Núcleos, 12 Threads) @ 3.9GHz [cite: 37]
+    * [cite_start]**RAM:** 16 GB DDR4 [cite: 37]
+    * [cite_start]**SO:** Windows 11 Pro 24H2 [cite: 37]
+    * [cite_start]**Versões:** C++17 (MSVC v19.38), Kotlin 2.0.0 (JVM 23), Python 3.13.3 [cite: 37]
+2.  **Processo de Benchmark:** Para cada teste, realizamos 3 execuções de aquecimento (descartadas) seguidas de 7 medições independentes. [cite_start]Os resultados apresentados são a média e o desvio padrão dessas medições. [cite: 39, 40, 41]
+3.  **Métricas:**
+    * [cite_start]**Tempo de Execução (s):** Média das execuções. [cite: 50]
+    * [cite_start]**Speedup:** Razão entre o tempo de execução sequencial e o paralelo ($T_{sequencial}/T_{paralelo}$). [cite: 51]
 
-    C++: std::async com a política std::launch::async para garantir a criação de threads nativas.
+## 📊 Resultados e Análise
 
-    Kotlin: Corrotinas com async e await sobre o Dispatchers.Default, um pool de threads otimizado para CPU.
+### Quicksort Paralelo
 
-    Python: concurrent.futures.ThreadPoolExecutor para avaliar o overhead e os limites do paralelismo baseado em threads sob o GIL.
+[cite_start]O paralelismo foi aplicado de forma recursiva, com a profundidade controlada pelo parâmetro `maxDepth`. [cite: 43]
 
-// Exemplo da implementação em Kotlin, mostrando a criação de tarefas assíncronas
-suspend fun parallelQuickSort(arr: IntArray, ..., depth: Int, maxDepth: Int) {
-    if (low < high) {
-        val pivotIndex = partition(arr, low, high)
-        if (depth < maxDepth) {
-            coroutineScope {
-                val left = async(Dispatchers.Default) { parallelQuickSort(arr, low, pivotIndex - 1, depth + 1, maxDepth) }
-                val right = async(Dispatchers.Default) { parallelQuickSort(arr, pivotIndex + 1, high, depth + 1, maxDepth) }
-                left.await()
-                right.await()
-            }
-        } else {
-            // Recorre à ordenação sequencial para evitar overhead excessivo
-            sequentialQuickSort(arr, low, pivotIndex - 1)
-            sequentialQuickSort(arr, pivotIndex + 1, high)
-        }
-    }
-}
+* [cite_start]**C++:** Foi a linguagem mais performática, atingindo um **speedup de até 3.39x**. [cite: 65, 66] [cite_start]O desempenho é sensível ao `maxDepth`, com o ponto ótimo variando conforme o tamanho da entrada, revelando que o overhead de criação de threads se torna um gargalo após certa profundidade. [cite: 57]
+* [cite_start]**Kotlin:** Apresentou um *slowdown* (speedup < 1.0x), indicando que o overhead do gerenciamento de corrotinas, para as muitas e pequenas tarefas geradas pelo Quicksort, superou os ganhos do paralelismo. [cite: 66, 67] [cite_start]No entanto, seu scheduler se mostrou robusto e estável, sem travar com o aumento da recursão. [cite: 58]
+* [cite_start]**Python (`ThreadPoolExecutor`):** Além do *slowdown* devido ao GIL [cite: 68][cite_start], a implementação **travou (deadlock) a partir de `maxDepth=5`**, confirmando que `ThreadPoolExecutor` é vulnerável e inadequado para algoritmos recursivos com paralelismo. [cite: 59]
 
-2. Multiplicação de Matrizes
+| Linguagem | Tamanho (N) | Tempo Sequencial (s) | Melhor Tempo Paralelo (s) | Speedup |
+| :--- | :--- | :--- | :--- | :--- |
+| **C++** | 5.000.000 | 0.3589 | **0.1057** (d=8) | **3.39x** |
+| **Kotlin**| 5.000.000 | 0.4808 | 0.5151 (d=4) | 0.93x |
+| **Python**| 5.000.000 | 20.5430 | 21.2038 (d=2)| 0.97x |
 
-Uma tarefa "embaraçosamente paralela", ideal para avaliar a escalabilidade e o paralelismo bruto, contornando o GIL em Python.
+### Multiplicação de Matrizes Paralela
 
-    Kotlin: O cálculo de cada linha da matriz resultante foi distribuído como uma corrotina em um pool de threads.
+[cite_start]Nesta tarefa, onde o cálculo de cada linha da matriz resultante foi distribuído, os resultados foram distintos. [cite: 48, 69]
 
-    Python: A biblioteca multiprocessing com Pool de processos foi utilizada para permitir a execução paralela real, contornando o GIL.
+* [cite_start]**Kotlin:** Demonstrou **excelente escalabilidade**, com o speedup crescendo linearmente com o tamanho da matriz, atingindo um pico de **5.82x**. [cite: 71, 72] [cite_start]Isso confirma a eficiência do modelo de corrotinas e da JVM para tarefas "embaraçosamente paralelas". [cite: 72]
+* [cite_start]**Python (`multiprocessing`):** Apresentou um *slowdown* drástico e consistente (speedup de ~0.04x a 0.11x). [cite: 71, 73] [cite_start]O custo de serialização e comunicação entre processos (IPC) para transferir as sub-matrizes foi tão alto que anulou completamente os ganhos obtidos com o paralelismo. [cite: 73]
 
-🔬 Metodologia de Benchmark
+| Linguagem | Tamanho da Matriz (NxN) | Tempo Sequencial (s) | Tempo Paralelo (s) | Speedup |
+| :--- | :--- | :--- | :--- | :--- |
+| **Kotlin**| 1473 | 10.6651 | **1.8342** | **5.82x** |
+| **Python**| 1473 | 0.0666 | 0.6225 | 0.11x |
 
-Para garantir a validade estatística e a justiça da comparação, foi adotada uma metodologia rigorosa:
+## 🎓 Conclusões
 
-    Ambiente de Teste:
+1.  [cite_start]**C++:** Oferece o **melhor desempenho absoluto**, mas exige gerenciamento manual e sintonia fina (`maxDepth`) para evitar que o overhead de criação de threads degrade a performance. [cite: 77, 78, 86]
+2.  [cite_start]**Kotlin:** Provou ser uma **alternativa robusta e de alta produtividade**. [cite: 9] [cite_start]Seu modelo de corrotinas com um scheduler inteligente se mostrou resiliente, escalável e eficiente, destacando-se como uma excelente opção para paralelismo na JVM. [cite: 79, 80, 86]
+3.  [cite_start]**Python:** As bibliotecas padrão (`ThreadPoolExecutor`, `multiprocessing`) são **inadequadas para paralelismo de CPU de alta performance**. [cite: 9, 87] [cite_start]O `ThreadPoolExecutor` é ineficaz pelo GIL e arriscado em cenários recursivos [cite: 82][cite_start], enquanto o `multiprocessing` sofre com um overhead de IPC que o torna inviável para tarefas com comunicação de dados frequente. [cite: 83] [cite_start]O real poder do Python para computação numérica vem de bibliotecas especializadas (ex: NumPy) que delegam o trabalho para código C/Fortran otimizado. [cite: 84]
 
-        CPU: AMD Ryzen 5 5600G (6 Núcleos, 12 Threads) @ 3.9GHz
+## 🔮 Trabalhos Futuros
 
-        RAM: 16 GB DDR4
+* [cite_start]Comparar os resultados com bibliotecas padrão da indústria, como **OpenMP** (para C++) e **Numba** (para Python). [cite: 88]
+* [cite_start]Desenvolver um modelo heurístico para prever o `maxDepth` ótimo para o Quicksort com base em parâmetros de hardware (núcleo, etc.) e tamanho da entrada. [cite: 89]
 
-        SO: Windows 11 Pro 24H2
+## 📑 Referência Principal
 
-        Versões: C++17 (MSVC v19.38), Kotlin 2.0.0 (JVM 23), Python 3.13.3
+> Moura, B. K. O. de, & Silva, P. H. L. (2024). *Implementação e Avaliação de Programas Paralelos usando C++, Kotlin e Python*. Departamento de Computação, Universidade Federal Rural do Semi-Árido (UFERSA).
 
-    Processo de Coleta:
-
-        Aquecimento (Warm-up): Foram realizadas 3 execuções iniciais cujos resultados foram descartados para mitigar efeitos de cold caches e compilação JIT (na JVM).
-
-        Medições: O tempo de execução de 7 medições independentes foi registrado para cada cenário.
-
-        Análise: Os resultados apresentados no artigo correspondem à média e ao desvio padrão das 7 medições.
-
-📈 Conclusões Detalhadas
-
-    C++: Desempenho Bruto com Responsabilidade: Oferece a performance máxima, mas exige sintonia fina do programador para gerenciar o overhead e evitar a degradação de desempenho. É a escolha ideal quando cada milissegundo conta.
-
-    Kotlin: Robustez e Produtividade: Foi o grande destaque. Seu modelo de corrotinas se mostrou resiliente, produtivo e altamente escalável, provando ser uma alternativa moderna e poderosa para computação de alto desempenho, abstraindo grande parte da complexidade do gerenciamento de threads.
-
-    Python: A Ferramenta Certa para a Tarefa Certa: As bibliotecas padrão (threading, multiprocessing) não são adequadas para paralelismo de CPU de alta performance devido a gargalos arquitetônicos (GIL e custo de IPC). O poder do Python para computação numérica reside em bibliotecas como NumPy e Numba, que delegam o trabalho pesado para código C/Fortran otimizado.
-
-📑 Referências do Artigo
-
-O trabalho completo se baseia e cita os seguintes artigos:
-
-    Buluç, A., & Gilbert, J. R. (2008). Challenges and Advances in Parallel Sparse Matrix-Matrix Multiplication.
-
-    Cheng, D. R., et al. (2007). A Novel Parallel Sorting Algorithm for Contemporary Architectures.
-
-    Hendrickson, B., et al. (1995). An Efficient Parallel Algorithm for Matrix-Vector Multiplication.
-
-    Sanders, P., & Hansch, T. (1997). On the Efficient Implementation of Massively Parallel Quicksort.
-
-    Schatz, M. D., et al. (2016). Parallel Matrix Multiplication: A Systematic Journey.
-
-    Tsigas, P., & Zhang, Y. (2001). A Simple, Fast Parallel Implementation of Quicksort and its Performance Evaluation.
-
-👨‍🎓 Informações do Projeto
-
-    Orientador: Prof. Paulo Henrique Lopes Silva
-
-    Discente: Breno Klywer Olegario de Moura
+---
