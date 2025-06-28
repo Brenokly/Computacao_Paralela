@@ -4,7 +4,7 @@
 
 ### Universidade: UFERSA - Universidade Federal Rural do Semi-Árido 🌱
 
-### Status: Pesquisa Concluída ✅
+### Status: Pesquisa Em andamento 🚶‍➡️
 
 ## 👥 Autores
 
