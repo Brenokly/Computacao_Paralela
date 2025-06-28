@@ -52,11 +52,8 @@ Para replicar o ambiente de teste e executar os benchmarks, você precisará do 
 
 ### C++
 
-1. Navegue até o diretório do código C++.
-2. Compile utilizando o compilador:
+Para compilar o código C++ eu necessitei do Visual Studio Community, gerando há versão release com suas devidas otimizações.
 
-   ```bash
-   cl /EHsc /O2 /std:c++17 seu_codigo.cpp -o quicksort_cpp.exe
    ```
 3. Execute:
 
@@ -64,27 +61,13 @@ Para replicar o ambiente de teste e executar os benchmarks, você precisará do 
    ./quicksort_cpp.exe
    ```
 
-### Kotlin
-
-1. Compile o arquivo `.kt`:
-
-   ```bash
-   kotlinc seu_codigo.kt -include-runtime -d seu_codigo.jar
-   ```
-2. Execute:
-
-   ```bash
-   java -jar seu_codigo.jar
-   ```
-
-### Python
+### Script que Executa o BenchMark
 
 1. Execute diretamente:
 
    ```bash
-   python seu_script.py
+   python executar_benchmark.py
    ```
-
 ---
 
 ## 📈 Resultados e Análise
