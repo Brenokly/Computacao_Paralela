@@ -22,20 +22,16 @@ fun main(args: Array<String>) {
 
     val algorithm = args[0]
     val mode = args[1]
-    val size = args[2].toIntOrNull()
-
-    if (size == null) {
-        System.err.println("Erro: Tamanho invalido.")
-        printUsage()
-        return
-    }
+    val size = args[2].toIntOrNull()!! // Assumindo que não é nulo após a verificação
 
     // Mede o tempo de execução da tarefa escolhida
-    val nanoTime = measureNanoTime {
-        when (algorithm.lowercase()) {
-            "quicksort" -> {
-                // Prepara e executa o benchmark do QuickSort
-                val data = IntArray(size) { Random.nextInt(0, 100_001) }
+    val nanoTime = when (algorithm.lowercase()) {
+        "quicksort" -> {
+            // Prepara os dados SÓ para o quicksort
+            val data = IntArray(size) { Random.nextInt(0, 100_001) }
+
+            // Mede APENAS a execução
+            measureNanoTime {
                 if (mode == "sequential") {
                     quickSortSequential(data)
                 } else {
@@ -43,27 +39,32 @@ fun main(args: Array<String>) {
                     runBlocking { quickSortParallel(data, depth = 0, maxDepth = maxDepth) }
                 }
             }
+        }
 
-            "matmul" -> {
-                // Prepara e executa o benchmark da Multiplicação de Matrizes
-                val A = Array(size) { DoubleArray(size) { Random.nextDouble(0.0, 100.0) } }
-                val B = Array(size) { DoubleArray(size) { Random.nextDouble(0.0, 100.0) } }
+        "matmul" -> {
+            // Prepara os dados SÓ para matmul
+            val A = Array(size) { DoubleArray(size) { Random.nextDouble(0.0, 100.0) } }
+            val B = Array(size) { DoubleArray(size) { Random.nextDouble(0.0, 100.0) } }
+
+            // Mede APENAS a execução
+            measureNanoTime {
                 if (mode == "sequential") {
                     multiplyMatricesSequential(A, B)
                 } else {
                     runBlocking { multiplyMatricesParallel(A, B) }
                 }
             }
+        }
 
-            else -> {
-                System.err.println("Erro: Algoritmo '${algorithm}' desconhecido.")
-                printUsage()
-                return@measureNanoTime // Sai do bloco de medição
-            }
+        else -> {
+            System.err.println("Erro: Algoritmo '${algorithm}' desconhecido.")
+            printUsage()
+            0L // Retorna 0 para nanoTime, pois não houve medição
         }
     }
 
-    // Imprime APENAS o tempo em segundos, com 8 casas decimais
-    val seconds = nanoTime / 1_000_000_000.0
-    println("%.8f".format(Locale.US, seconds))
+    if (nanoTime > 0) {
+        val seconds = nanoTime / 1_000_000_000.0
+        println("%.8f".format(Locale.US, seconds))
+    }
 }
